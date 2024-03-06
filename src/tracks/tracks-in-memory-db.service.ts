@@ -3,7 +3,10 @@ import { ITracksDBService, Track, UpdateTrackDTO } from './tracks.models';
 import { InMemoryDBService } from '../common/in-memory-db.service';
 
 @Injectable()
-export class TrackInMemoryDBService extends InMemoryDBService<Track> implements ITracksDBService {
+export class TrackInMemoryDBService
+	extends InMemoryDBService<Track>
+	implements ITracksDBService
+{
 	constructor() {
 		super([
 			new Track({
@@ -48,16 +51,18 @@ export class TrackInMemoryDBService extends InMemoryDBService<Track> implements 
 
 	public createTrack(newTrack: Track): Track {
 		const allTracks: Track[] = this.getAllTracks();
-		this.writeToDB([
-			...allTracks,
-			newTrack,
-		])
+		this.writeToDB([...allTracks, newTrack]);
 		return newTrack;
 	}
 
-	public updateTrack(id: string, updateTrackDTO: UpdateTrackDTO): Track | undefined {
+	public updateTrack(
+		id: string,
+		updateTrackDTO: UpdateTrackDTO,
+	): Track | undefined {
 		const allTracks: Track[] = this.getAllTracks();
-		let trackToUpdate: Track | undefined = allTracks.find((track: Track) => track.id === id);
+		let trackToUpdate: Track | undefined = allTracks.find(
+			(track: Track) => track.id === id,
+		);
 		if (!trackToUpdate) {
 			return;
 		}
@@ -66,9 +71,7 @@ export class TrackInMemoryDBService extends InMemoryDBService<Track> implements 
 			...updateTrackDTO,
 		});
 		const updatedTracks: Track[] = allTracks.map((track: Track) => {
-			return track.id === id
-				? trackToUpdate!
-				: track;
+			return track.id === id ? trackToUpdate : track;
 		});
 		this.writeToDB(updatedTracks);
 		return trackToUpdate;
@@ -76,7 +79,9 @@ export class TrackInMemoryDBService extends InMemoryDBService<Track> implements 
 
 	public deleteTrack(id: string): boolean {
 		const allTracks: Track[] = this.getAllTracks();
-		const updatedTracks: Track[] = allTracks.filter((track: Track) => track.id !== id);
+		const updatedTracks: Track[] = allTracks.filter(
+			(track: Track) => track.id !== id,
+		);
 		this.writeToDB(updatedTracks);
 		return allTracks.length !== updatedTracks.length;
 	}
@@ -88,7 +93,7 @@ export class TrackInMemoryDBService extends InMemoryDBService<Track> implements 
 				return new Track({
 					...track,
 					artistId: null,
-				})
+				});
 			}
 			return track;
 		});
@@ -102,14 +107,10 @@ export class TrackInMemoryDBService extends InMemoryDBService<Track> implements 
 				return new Track({
 					...track,
 					albumId: null,
-				})
+				});
 			}
 			return track;
 		});
 		this.writeToDB(updatedTracks);
-	}
-
-	protected typeObject(object: Object): Track {
-		return new Track(object);
 	}
 }

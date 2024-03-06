@@ -3,7 +3,10 @@ import { Album, IAlbumsDBService, UpdateAlbumDTO } from './albums.models';
 import { InMemoryDBService } from '../common/in-memory-db.service';
 
 @Injectable()
-export class AlbumsInMemoryDbService extends InMemoryDBService<Album> implements IAlbumsDBService {
+export class AlbumsInMemoryDbService
+	extends InMemoryDBService<Album>
+	implements IAlbumsDBService
+{
 	constructor() {
 		super([
 			new Album({
@@ -32,16 +35,18 @@ export class AlbumsInMemoryDbService extends InMemoryDBService<Album> implements
 
 	public createAlbum(newAlbum: Album): Album {
 		const allAlbums: Album[] = this.getAllAlbums();
-		this.writeToDB([
-			...allAlbums,
-			newAlbum,
-		])
+		this.writeToDB([...allAlbums, newAlbum]);
 		return newAlbum;
 	}
 
-	public updateAlbum(id: string, updateAlbumDTO: UpdateAlbumDTO): Album | undefined {
+	public updateAlbum(
+		id: string,
+		updateAlbumDTO: UpdateAlbumDTO,
+	): Album | undefined {
 		const allAlbums: Album[] = this.getAllAlbums();
-		let albumToUpdate: Album | undefined = allAlbums.find((album: Album) => album.id === id);
+		let albumToUpdate: Album | undefined = allAlbums.find(
+			(album: Album) => album.id === id,
+		);
 		if (!albumToUpdate) {
 			return;
 		}
@@ -50,9 +55,7 @@ export class AlbumsInMemoryDbService extends InMemoryDBService<Album> implements
 			...updateAlbumDTO,
 		});
 		const updatedAlbum: Album[] = allAlbums.map((album: Album) => {
-			return album.id === id
-				? albumToUpdate!
-				: album;
+			return album.id === id ? albumToUpdate : album;
 		});
 		this.writeToDB(updatedAlbum);
 		return albumToUpdate;
@@ -60,7 +63,9 @@ export class AlbumsInMemoryDbService extends InMemoryDBService<Album> implements
 
 	public deleteAlbum(id: string): boolean {
 		const allAlbums: Album[] = this.getAllAlbums();
-		const updatedAlbums: Album[] = allAlbums.filter((album: Album) => album.id !== id);
+		const updatedAlbums: Album[] = allAlbums.filter(
+			(album: Album) => album.id !== id,
+		);
 		this.writeToDB(updatedAlbums);
 		return allAlbums.length !== updatedAlbums.length;
 	}
@@ -72,14 +77,10 @@ export class AlbumsInMemoryDbService extends InMemoryDBService<Album> implements
 				return new Album({
 					...album,
 					artistId: null,
-				})
+				});
 			}
 			return album;
 		});
 		this.writeToDB(updatedAlbums);
-	}
-
-	protected typeObject(object: Object): Album {
-		return new Album(object);
 	}
 }

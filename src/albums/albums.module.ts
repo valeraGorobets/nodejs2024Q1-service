@@ -4,13 +4,8 @@ import { SharedModule } from '../shared/shared.module';
 import { AlbumsService } from './albums.service';
 
 @Module({
-	imports: [ SharedModule ],
-	controllers: [
-		AlbumsController,
-	],
-	providers: [
-		AlbumsService,
-	]
+	imports: [SharedModule],
+	controllers: [AlbumsController],
+	providers: [AlbumsService],
 })
-export class AlbumsModule {
-}
+export class AlbumsModule {}

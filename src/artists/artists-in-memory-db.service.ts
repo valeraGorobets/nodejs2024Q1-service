@@ -1,9 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { Artist, CreateArtistDTO, IArtistsDBService, UpdateArtistDTO } from './artists.models';
+import { Artist, IArtistsDBService, UpdateArtistDTO } from './artists.models';
 import { InMemoryDBService } from '../common/in-memory-db.service';
 
 @Injectable()
-export class ArtistsInMemoryDBService extends InMemoryDBService<Artist> implements IArtistsDBService {
+export class ArtistsInMemoryDBService
+	extends InMemoryDBService<Artist>
+	implements IArtistsDBService
+{
 	constructor() {
 		super([
 			new Artist({
@@ -30,16 +33,18 @@ export class ArtistsInMemoryDBService extends InMemoryDBService<Artist> implemen
 
 	public createArtist(newArtist: Artist): Artist {
 		const allArtists: Artist[] = this.getAllArtists();
-		this.writeToDB([
-			...allArtists,
-			newArtist,
-		])
+		this.writeToDB([...allArtists, newArtist]);
 		return newArtist;
 	}
 
-	public updateArtist(id: string, updateArtistDTO: UpdateArtistDTO): Artist | undefined {
+	public updateArtist(
+		id: string,
+		updateArtistDTO: UpdateArtistDTO,
+	): Artist | undefined {
 		const allArtists: Artist[] = this.getAllArtists();
-		let artistToUpdate: Artist | undefined = allArtists.find((artist: Artist) => artist.id === id);
+		let artistToUpdate: Artist | undefined = allArtists.find(
+			(artist: Artist) => artist.id === id,
+		);
 		if (!artistToUpdate) {
 			return;
 		}
@@ -48,9 +53,7 @@ export class ArtistsInMemoryDBService extends InMemoryDBService<Artist> implemen
 			...updateArtistDTO,
 		});
 		const updatedArtists: Artist[] = allArtists.map((artist: Artist) => {
-			return artist.id === id
-				? artistToUpdate!
-				: artist;
+			return artist.id === id ? artistToUpdate : artist;
 		});
 		this.writeToDB(updatedArtists);
 		return artistToUpdate;
@@ -58,12 +61,10 @@ export class ArtistsInMemoryDBService extends InMemoryDBService<Artist> implemen
 
 	public deleteArtist(id: string): boolean {
 		const allArtists: Artist[] = this.getAllArtists();
-		const updatedArtists: Artist[] = allArtists.filter((artist: Artist) => artist.id !== id);
+		const updatedArtists: Artist[] = allArtists.filter(
+			(artist: Artist) => artist.id !== id,
+		);
 		this.writeToDB(updatedArtists);
 		return allArtists.length !== updatedArtists.length;
-	}
-
-	protected typeObject(object: Object): Artist {
-		return new Artist(object);
 	}
 }

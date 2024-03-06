@@ -8,7 +8,7 @@ import {
 	ParseUUIDPipe,
 	Post,
 	Put,
-	UseInterceptors
+	UseInterceptors,
 } from '@nestjs/common';
 import {
 	CreateUserDTO,
@@ -16,7 +16,7 @@ import {
 	UpdatePasswordDTO,
 	UpdatePasswordState,
 	User,
-	WrongOldPasswordException
+	WrongOldPasswordException,
 } from './users.models';
 import { NotFoundException } from '../common/exeptions.models';
 import { APIPath } from '../shared/shared.models';
@@ -26,17 +26,14 @@ import { PasswordRemovalInterceptor } from './users.interceptors';
 @Controller(APIPath.Users)
 @UseInterceptors(PasswordRemovalInterceptor)
 export class UsersController {
-	constructor(
-		private readonly userService: UsersService,
-	) {
-	}
+	constructor(private readonly userService: UsersService) {}
 
 	@Get()
 	getAll(): User[] {
 		return this.userService.getAllUsers();
 	}
 
-	@Get(`:${ APIPath.Id }`)
+	@Get(`:${APIPath.Id}`)
 	getById(@Param(APIPath.Id, ParseUUIDPipe) id: string): User {
 		const user: User | undefined = this.userService.getUserById(id);
 		if (!user) {
@@ -50,9 +47,13 @@ export class UsersController {
 		return this.userService.createUser(createUserDTO);
 	}
 
-	@Put(`:${ APIPath.Id }`)
-	update(@Param(APIPath.Id, ParseUUIDPipe) id: string, @Body() updatePasswordDTO: UpdatePasswordDTO): User {
-		const { updatedUser, updatePasswordState }: IUpdatePasswordResult = this.userService.updateUsersPassword(id, updatePasswordDTO);
+	@Put(`:${APIPath.Id}`)
+	update(
+		@Param(APIPath.Id, ParseUUIDPipe) id: string,
+		@Body() updatePasswordDTO: UpdatePasswordDTO,
+	): User {
+		const { updatedUser, updatePasswordState }: IUpdatePasswordResult =
+			this.userService.updateUsersPassword(id, updatePasswordDTO);
 		switch (updatePasswordState) {
 			case UpdatePasswordState.Ok:
 				return updatedUser;
@@ -63,7 +64,7 @@ export class UsersController {
 		}
 	}
 
-	@Delete(`:${ APIPath.Id }`)
+	@Delete(`:${APIPath.Id}`)
 	@HttpCode(204)
 	remove(@Param(APIPath.Id, ParseUUIDPipe) id: string): void {
 		const isDeleted: boolean = this.userService.deleteUser(id);

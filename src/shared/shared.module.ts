@@ -7,22 +7,28 @@ import { AlbumsInMemoryDbService } from '../albums/albums-in-memory-db.service';
 import { FavoritesInMemoryDbService } from '../favorites/favorites-in-memory-db.service';
 
 @Module({
-	providers: [ {
-		provide: DBServiceAlias.ArtistsDBService,
-		useClass: ArtistsInMemoryDBService,
-	}, {
-		provide: DBServiceAlias.UsersDBService,
-		useClass: UsersInMemoryDBService,
-	}, {
-		provide: DBServiceAlias.TracksDBService,
-		useClass: TrackInMemoryDBService,
-	}, {
-		provide: DBServiceAlias.AlbumsDBService,
-		useClass: AlbumsInMemoryDbService,
-	}, {
-		provide: DBServiceAlias.FavoritesDBService,
-		useClass: FavoritesInMemoryDbService,
-	} ],
+	providers: [
+		{
+			provide: DBServiceAlias.ArtistsDBService,
+			useClass: ArtistsInMemoryDBService,
+		},
+		{
+			provide: DBServiceAlias.UsersDBService,
+			useClass: UsersInMemoryDBService,
+		},
+		{
+			provide: DBServiceAlias.TracksDBService,
+			useClass: TrackInMemoryDBService,
+		},
+		{
+			provide: DBServiceAlias.AlbumsDBService,
+			useClass: AlbumsInMemoryDbService,
+		},
+		{
+			provide: DBServiceAlias.FavoritesDBService,
+			useClass: FavoritesInMemoryDbService,
+		},
+	],
 	exports: [
 		DBServiceAlias.ArtistsDBService,
 		DBServiceAlias.UsersDBService,
@@ -31,5 +37,4 @@ import { FavoritesInMemoryDbService } from '../favorites/favorites-in-memory-db.
 		DBServiceAlias.FavoritesDBService,
 	],
 })
-export class SharedModule {
-}
+export class SharedModule {}

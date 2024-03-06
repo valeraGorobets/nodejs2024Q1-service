@@ -1,11 +1,11 @@
 import { v4 as uuidv4 } from 'uuid';
-import { IsDefined, IsOptional, IsString } from 'class-validator';
+import { IsDefined, IsString } from 'class-validator';
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { getCurrentTimestamp } from '../common/utils';
 
 export interface IUpdatePasswordResult {
-	updatedUser?: User,
-	updatePasswordState: UpdatePasswordState,
+	updatedUser?: User;
+	updatePasswordState: UpdatePasswordState;
 }
 
 export enum UpdatePasswordState {
@@ -52,7 +52,7 @@ export class User {
 	public id: string = uuidv4();
 	public login: string;
 	public password: string;
-	public version: number = 1;
+	public version = 1;
 	public createdAt: number = getCurrentTimestamp();
 	public updatedAt: number = this.createdAt;
 

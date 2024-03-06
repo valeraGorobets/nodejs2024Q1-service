@@ -5,16 +5,16 @@ import {
 	IUsersDBService,
 	UpdatePasswordDTO,
 	UpdatePasswordState,
-	User
+	User,
 } from './users.models';
 import { DBServiceAlias } from '../shared/shared.models';
 
 @Injectable()
 export class UsersService {
 	constructor(
-		@Inject(DBServiceAlias.UsersDBService) private readonly userDBService: IUsersDBService,
-	) {
-	}
+		@Inject(DBServiceAlias.UsersDBService)
+		private readonly userDBService: IUsersDBService,
+	) {}
 
 	public getAllUsers(): User[] {
 		return this.userDBService.getAllUsers();
@@ -29,12 +29,17 @@ export class UsersService {
 		return this.userDBService.createUser(newUser);
 	}
 
-	public updateUsersPassword(id: string, { oldPassword, newPassword }: UpdatePasswordDTO): IUpdatePasswordResult {
+	public updateUsersPassword(
+		id: string,
+		{ oldPassword, newPassword }: UpdatePasswordDTO,
+	): IUpdatePasswordResult {
 		const userToUpdate: User | undefined = this.getUserById(id);
 		if (!userToUpdate) {
 			return { updatePasswordState: UpdatePasswordState.UserNotExisting };
 		} else if (userToUpdate.password !== oldPassword) {
-			return { updatePasswordState: UpdatePasswordState.WrongOldPassword };
+			return {
+				updatePasswordState: UpdatePasswordState.WrongOldPassword,
+			};
 		}
 		userToUpdate.updatePassword(newPassword);
 		this.userDBService.updateUsersPassword(userToUpdate);
@@ -46,9 +51,5 @@ export class UsersService {
 
 	public deleteUser(id: string): boolean {
 		return this.userDBService.deleteUser(id);
-	}
-
-	protected typeObject(object: Object): User {
-		return new User(object);
 	}
 }

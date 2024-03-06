@@ -5,10 +5,8 @@ export abstract class InMemoryDBService<T> {
 		this.writeToDB(initValues);
 	}
 
-	protected abstract typeObject(object: Object): T;
-
 	protected loadDB(): T[] {
-		return this.db.map((object: Object) => this.typeObject(object));
+		return this.db;
 	}
 
 	protected writeToDB(collection: T[]): void {

@@ -4,13 +4,8 @@ import { SharedModule } from '../shared/shared.module';
 import { FavoritesService } from './favorites.service';
 
 @Module({
-	imports: [ SharedModule ],
-	controllers: [
-		FavoritesController,
-	],
-	providers: [
-		FavoritesService,
-	]
+	imports: [SharedModule],
+	controllers: [FavoritesController],
+	providers: [FavoritesService],
 })
-export class FavoritesModule {
-}
+export class FavoritesModule {}

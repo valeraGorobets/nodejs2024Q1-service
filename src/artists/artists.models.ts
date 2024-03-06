@@ -46,7 +46,10 @@ export interface IArtistsDBService {
 
 	createArtist(newArtist: Artist): Artist;
 
-	updateArtist(id: string, updateArtistDTO: UpdateArtistDTO): Artist | undefined;
+	updateArtist(
+		id: string,
+		updateArtistDTO: UpdateArtistDTO,
+	): Artist | undefined;
 
 	deleteArtist(id: string): boolean;
 }

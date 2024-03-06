@@ -1,16 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import {
-	CreateUserDTO,
-	IUpdatePasswordResult,
-	IUsersDBService,
-	UpdatePasswordDTO,
-	UpdatePasswordState,
-	User
-} from './users.models';
+import { IUsersDBService, User } from './users.models';
 import { InMemoryDBService } from '../common/in-memory-db.service';
 
 @Injectable()
-export class UsersInMemoryDBService extends InMemoryDBService<User> implements IUsersDBService {
+export class UsersInMemoryDBService
+	extends InMemoryDBService<User>
+	implements IUsersDBService
+{
 	constructor() {
 		super([
 			new User({
@@ -43,31 +39,24 @@ export class UsersInMemoryDBService extends InMemoryDBService<User> implements I
 
 	public createUser(newUser: User): User {
 		const allUsers: User[] = this.getAllUsers();
-		this.writeToDB([
-			...allUsers,
-			newUser,
-		])
+		this.writeToDB([...allUsers, newUser]);
 		return newUser;
 	}
 
 	public updateUsersPassword(userToUpdate: User): void {
 		const allUsers: User[] = this.getAllUsers();
 		const updatedUsers: User[] = allUsers.map((user: User) => {
-			return user.id === userToUpdate.id
-				? new User(userToUpdate)
-				: user;
+			return user.id === userToUpdate.id ? new User(userToUpdate) : user;
 		});
 		this.writeToDB(updatedUsers);
 	}
 
 	public deleteUser(id: string): boolean {
 		const allUsers: User[] = this.getAllUsers();
-		const updatedUsers: User[] = allUsers.filter((user: User) => user.id !== id);
+		const updatedUsers: User[] = allUsers.filter(
+			(user: User) => user.id !== id,
+		);
 		this.writeToDB(updatedUsers);
 		return allUsers.length !== updatedUsers.length;
-	}
-
-	protected typeObject(object: Object): User {
-		return new User(object);
 	}
 }

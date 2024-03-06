@@ -16,9 +16,9 @@ export class FavoritesInMemoryDbService implements IFavoritesDBService {
 
 	public getFavorites(): FavoritesIDs {
 		return new FavoritesIDs({
-			artistIDs: [ ...this.favoriteArtistIDs.values() ],
-			albumIDs: [ ...this.favoriteAlbumIDs.values() ],
-			trackIDs: [ ...this.favoriteTrackIDs.values() ],
+			artistIDs: [...this.favoriteArtistIDs.values()],
+			albumIDs: [...this.favoriteAlbumIDs.values()],
+			trackIDs: [...this.favoriteTrackIDs.values()],
 		});
 	}
 

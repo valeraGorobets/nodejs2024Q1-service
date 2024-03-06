@@ -16,13 +16,13 @@ export enum FavoritesEntity {
 
 export class FavoritesNotExistException extends HttpException {
 	constructor(entity: string) {
-		super(`${ entity } does not exist`, HttpStatus.UNPROCESSABLE_ENTITY);
+		super(`${entity} does not exist`, HttpStatus.UNPROCESSABLE_ENTITY);
 	}
 }
 
 export class FavoritesNotFoundException extends HttpException {
 	constructor(entity: string) {
-		super(`${ entity } is not favorite`, HttpStatus.NOT_FOUND);
+		super(`${entity} is not favorite`, HttpStatus.NOT_FOUND);
 	}
 }
 

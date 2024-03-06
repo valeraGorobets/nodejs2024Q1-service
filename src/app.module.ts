@@ -14,8 +14,7 @@ import { FavoritesModule } from './favorites/favorites.module';
 		AlbumsModule,
 		FavoritesModule,
 	],
-	controllers: [ AppController ],
+	controllers: [AppController],
 	providers: [],
 })
-export class AppModule {
-}
+export class AppModule {}
