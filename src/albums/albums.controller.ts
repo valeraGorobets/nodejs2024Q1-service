@@ -19,13 +19,17 @@ export class AlbumsController {
 	constructor(private readonly albumsService: AlbumsService) {}
 
 	@Get()
-	getAll(): Album[] {
+	getAll(): Promise<Album[]> {
 		return this.albumsService.getAllAlbums();
 	}
 
 	@Get(`:${APIPath.Id}`)
-	getById(@Param(APIPath.Id, ParseUUIDPipe) id: string): Album {
-		const album: Album | undefined = this.albumsService.getAlbumById(id);
+	async getById(
+		@Param(APIPath.Id, ParseUUIDPipe) id: string,
+	): Promise<Album> {
+		const album: Album | undefined = await this.albumsService.getAlbumById(
+			id,
+		);
 		if (!album) {
 			throw new NotFoundException(id);
 		}
@@ -33,19 +37,17 @@ export class AlbumsController {
 	}
 
 	@Post()
-	create(@Body() createAlbumDTO: CreateAlbumDTO): Album {
+	create(@Body() createAlbumDTO: CreateAlbumDTO): Promise<Album> {
 		return this.albumsService.createAlbum(createAlbumDTO);
 	}
 
 	@Put(`:${APIPath.Id}`)
-	update(
+	async update(
 		@Param(APIPath.Id, ParseUUIDPipe) id: string,
 		@Body() updateAlbumDTO: UpdateAlbumDTO,
-	): Album {
-		const updatedAlbum: Album | undefined = this.albumsService.updateAlbum(
-			id,
-			updateAlbumDTO,
-		);
+	): Promise<Album> {
+		const updatedAlbum: Album | undefined =
+			await this.albumsService.updateAlbum(id, updateAlbumDTO);
 		if (!updatedAlbum) {
 			throw new NotFoundException(id);
 		}
@@ -54,9 +56,9 @@ export class AlbumsController {
 
 	@Delete(`:${APIPath.Id}`)
 	@HttpCode(204)
-	remove(@Param(APIPath.Id, ParseUUIDPipe) id: string): void {
-		const isDeleted: boolean = this.albumsService.deleteAlbum(id);
-		if (!isDeleted) {
+	async remove(@Param(APIPath.Id, ParseUUIDPipe) id: string): Promise<void> {
+		const deletedAlbum: Album = await this.albumsService.deleteAlbum(id);
+		if (!deletedAlbum) {
 			throw new NotFoundException(id);
 		}
 	}

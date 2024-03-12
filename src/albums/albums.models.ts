@@ -1,5 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import { IsDefined, IsInt, IsOptional, IsString } from 'class-validator';
+import type { Album as AlbumPrismaType } from '@prisma/client';
 
 export class CreateAlbumDTO {
 	@IsDefined()
@@ -60,4 +61,19 @@ export interface IAlbumsDBService {
 	deleteAlbum(id: string): boolean;
 
 	handleArtistDelete(artistId: string): void;
+}
+
+export interface IAlbumsDBService2 {
+	getAllAlbums(): Promise<AlbumPrismaType[]>;
+
+	getAlbumById(id: string): Promise<AlbumPrismaType | undefined>;
+
+	createAlbum(createAlbumDTO: CreateAlbumDTO): Promise<AlbumPrismaType>;
+
+	updateAlbum(
+		id: string,
+		updateAlbumDTO: UpdateAlbumDTO,
+	): Promise<AlbumPrismaType>;
+
+	deleteAlbum(id: string): Promise<AlbumPrismaType>;
 }

@@ -19,8 +19,8 @@ export class ArtistsController {
 	constructor(private readonly artistsService: ArtistsService) {}
 
 	@Get()
-	async getAll(): Promise<Artist[]> {
-		return await this.artistsService.getAllArtists();
+	getAll(): Promise<Artist[]> {
+		return this.artistsService.getAllArtists();
 	}
 
 	@Get(`:${APIPath.Id}`)

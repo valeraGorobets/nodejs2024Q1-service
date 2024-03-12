@@ -7,7 +7,6 @@ import {
 } from './artists.models';
 import { DBServiceAlias } from '../shared/shared.models';
 import { IFavoritesDBService } from '../favorites/favorites.models';
-import { IAlbumsDBService } from '../albums/albums.models';
 import { ITracksDBService } from '../tracks/tracks.models';
 import type { Artist as ArtistPrismaType } from '.prisma/client';
 
@@ -18,8 +17,6 @@ export class ArtistsService {
 		private readonly artistsDBService: IArtistsDBService2,
 		@Inject(DBServiceAlias.FavoritesDBService)
 		private readonly favoritesDBService: IFavoritesDBService,
-		@Inject(DBServiceAlias.AlbumsDBService)
-		private readonly albumsDBService: IAlbumsDBService,
 		@Inject(DBServiceAlias.TracksDBService)
 		private readonly tracksDBService: ITracksDBService,
 	) {}
@@ -59,7 +56,6 @@ export class ArtistsService {
 
 	public deleteArtist(id: string): Promise<Artist> {
 		this.favoritesDBService.deleteArtistFromFavorites(id);
-		this.albumsDBService.handleArtistDelete(id);
 		this.tracksDBService.handleArtistDelete(id);
 		return this.artistsDBService
 			.deleteArtist(id)
