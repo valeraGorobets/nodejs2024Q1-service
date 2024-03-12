@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { DBServiceAlias } from './shared.models';
-import { TrackInMemoryDBService } from '../tracks/tracks-in-memory-db.service';
 import { FavoritesInMemoryDbService } from '../favorites/favorites-in-memory-db.service';
 import { UsersPostgreDbService } from '../users/users-postgre-db.service';
 import { ArtistsPostgreDBService } from '../artists/artists-in-postgre-db.service';
 import { AlbumsPostgreDbService } from '../albums/albums-postgre-db.service';
+import { TrackPostgreDBService } from '../tracks/tracks-postgre-db.service';
 
 @Module({
 	providers: [
@@ -18,7 +18,7 @@ import { AlbumsPostgreDbService } from '../albums/albums-postgre-db.service';
 		},
 		{
 			provide: DBServiceAlias.TracksDBService,
-			useClass: TrackInMemoryDBService,
+			useClass: TrackPostgreDBService,
 		},
 		{
 			provide: DBServiceAlias.AlbumsDBService,

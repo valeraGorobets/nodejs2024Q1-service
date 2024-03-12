@@ -1,5 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import { IsDefined, IsInt, IsOptional, IsString } from 'class-validator';
+import type { Track as TrackPrismaType } from '@prisma/client';
 
 export class CreateTrackDTO {
 	@IsDefined()
@@ -71,4 +72,16 @@ export interface ITracksDBService {
 	handleArtistDelete(artistId: string): void;
 
 	handleAlbumDelete(albumId: string): void;
+}
+
+export interface ITracksDBService2 {
+	getAllTracks(): Promise<TrackPrismaType[]>;
+
+	getTrackById(id: string): Promise<TrackPrismaType | undefined>;
+
+	createTrack(createTrackDTO: CreateTrackDTO): Promise<TrackPrismaType>;
+
+	updateTrack(id: string, updateTrackDTO: UpdateTrackDTO): Promise<TrackPrismaType>;
+
+	deleteTrack(id: string): Promise<TrackPrismaType>;
 }
