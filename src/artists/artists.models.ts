@@ -1,5 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import { IsBoolean, IsDefined, IsOptional, IsString } from 'class-validator';
+import type { Artist as ArtistPrismaType } from '@prisma/client';
 
 export class CreateArtistDTO {
 	@IsDefined()
@@ -52,4 +53,19 @@ export interface IArtistsDBService {
 	): Artist | undefined;
 
 	deleteArtist(id: string): boolean;
+}
+
+export interface IArtistsDBService2 {
+	getAllArtists(): Promise<ArtistPrismaType[]>;
+
+	getArtistById(id: string): Promise<ArtistPrismaType | undefined>;
+
+	createArtist(createArtistDTO: CreateArtistDTO): Promise<ArtistPrismaType>;
+
+	updateArtist(
+		id: string,
+		updateArtistDTO: UpdateArtistDTO,
+	): Promise<ArtistPrismaType>;
+
+	deleteArtist(id: string): Promise<ArtistPrismaType>;
 }

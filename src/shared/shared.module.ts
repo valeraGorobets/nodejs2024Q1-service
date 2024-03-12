@@ -1,16 +1,16 @@
 import { Module } from '@nestjs/common';
-import { ArtistsInMemoryDBService } from '../artists/artists-in-memory-db.service';
 import { DBServiceAlias } from './shared.models';
 import { TrackInMemoryDBService } from '../tracks/tracks-in-memory-db.service';
 import { AlbumsInMemoryDbService } from '../albums/albums-in-memory-db.service';
 import { FavoritesInMemoryDbService } from '../favorites/favorites-in-memory-db.service';
 import { UsersPostgreDbService } from '../users/users-postgre-db.service';
+import { ArtistsPostgreDBService } from '../artists/artists-in-postgre-db.service';
 
 @Module({
 	providers: [
 		{
 			provide: DBServiceAlias.ArtistsDBService,
-			useClass: ArtistsInMemoryDBService,
+			useClass: ArtistsPostgreDBService,
 		},
 		{
 			provide: DBServiceAlias.UsersDBService,
