@@ -29,13 +29,13 @@ export class UsersController {
 	constructor(private readonly userService: UsersService) {}
 
 	@Get()
-	getAll(): User[] {
+	getAll(): Promise<User[]> {
 		return this.userService.getAllUsers();
 	}
 
 	@Get(`:${APIPath.Id}`)
-	getById(@Param(APIPath.Id, ParseUUIDPipe) id: string): User {
-		const user: User | undefined = this.userService.getUserById(id);
+	async getById(@Param(APIPath.Id, ParseUUIDPipe) id: string): Promise<User> {
+		const user: User | undefined = await this.userService.getUserById(id);
 		if (!user) {
 			throw new NotFoundException(id);
 		}
@@ -43,17 +43,17 @@ export class UsersController {
 	}
 
 	@Post()
-	create(@Body() createUserDTO: CreateUserDTO): User {
+	async create(@Body() createUserDTO: CreateUserDTO): Promise<User> {
 		return this.userService.createUser(createUserDTO);
 	}
 
 	@Put(`:${APIPath.Id}`)
-	update(
+	async update(
 		@Param(APIPath.Id, ParseUUIDPipe) id: string,
 		@Body() updatePasswordDTO: UpdatePasswordDTO,
-	): User {
+	): Promise<User> {
 		const { updatedUser, updatePasswordState }: IUpdatePasswordResult =
-			this.userService.updateUsersPassword(id, updatePasswordDTO);
+			await this.userService.updateUsersPassword(id, updatePasswordDTO);
 		switch (updatePasswordState) {
 			case UpdatePasswordState.Ok:
 				return updatedUser;
@@ -66,9 +66,9 @@ export class UsersController {
 
 	@Delete(`:${APIPath.Id}`)
 	@HttpCode(204)
-	remove(@Param(APIPath.Id, ParseUUIDPipe) id: string): void {
-		const isDeleted: boolean = this.userService.deleteUser(id);
-		if (!isDeleted) {
+	async remove(@Param(APIPath.Id, ParseUUIDPipe) id: string): Promise<void> {
+		const deletedUser: User = await this.userService.deleteUser(id);
+		if (!deletedUser) {
 			throw new NotFoundException(id);
 		}
 	}
