@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import {
 	Artist,
 	CreateArtistDTO,
-	IArtistsDBService2,
+	IArtistsPostgreDBService,
 	UpdateArtistDTO,
 } from './artists.models';
 import { DBServiceAlias } from '../shared/shared.models';
@@ -12,7 +12,7 @@ import type { Artist as ArtistPrismaType } from '.prisma/client';
 export class ArtistsService {
 	constructor(
 		@Inject(DBServiceAlias.ArtistsDBService)
-		private readonly artistsDBService: IArtistsDBService2,
+		private readonly artistsDBService: IArtistsPostgreDBService,
 	) {}
 
 	public getAllArtists(): Promise<Artist[]> {

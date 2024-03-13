@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import {
 	CreateTrackDTO,
-	ITracksDBService2,
+	ITracksPostgreDBService,
 	Track,
 	UpdateTrackDTO,
 } from './tracks.models';
@@ -12,7 +12,7 @@ import type { Track as TrackPrismaType } from '.prisma/client';
 export class TrackService {
 	constructor(
 		@Inject(DBServiceAlias.TracksDBService)
-		private readonly trackDBService: ITracksDBService2,
+		private readonly trackDBService: ITracksPostgreDBService,
 	) {}
 
 	public getAllTracks(): Promise<Track[]> {

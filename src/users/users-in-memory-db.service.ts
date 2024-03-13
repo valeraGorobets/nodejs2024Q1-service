@@ -1,9 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { User } from './users.models';
+import { IUsersDBService, User } from './users.models';
 import { InMemoryDBService } from '../common/in-memory-db.service';
 
 @Injectable()
-export class UsersInMemoryDBService extends InMemoryDBService<User> {
+export class UsersInMemoryDBService
+	extends InMemoryDBService<User>
+	implements IUsersDBService
+{
 	constructor() {
 		super([
 			new User({

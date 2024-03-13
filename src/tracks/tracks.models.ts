@@ -78,14 +78,17 @@ export interface ITracksDBService {
 	handleAlbumDelete(albumId: string): void;
 }
 
-export interface ITracksDBService2 {
+export interface ITracksPostgreDBService {
 	getAllTracks(): Promise<TrackPrismaType[]>;
 
 	getTrackById(id: string): Promise<TrackPrismaType | undefined>;
 
 	createTrack(createTrackDTO: CreateTrackDTO): Promise<TrackPrismaType>;
 
-	updateTrack(id: string, updateTrackDTO: UpdateTrackDTO): Promise<TrackPrismaType>;
+	updateTrack(
+		id: string,
+		updateTrackDTO: UpdateTrackDTO,
+	): Promise<TrackPrismaType>;
 
 	deleteTrack(id: string): Promise<TrackPrismaType>;
 }

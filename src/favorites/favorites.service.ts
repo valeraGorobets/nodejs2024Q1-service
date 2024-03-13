@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import {
 	Favorites,
 	FavoritesResponseState,
-	IFavoritesDBService2,
+	IFavoritesPostgreDBService,
 } from './favorites.models';
 import { DBServiceAlias } from '../shared/shared.models';
 import { Artist } from '../artists/artists.models';
@@ -13,7 +13,7 @@ import { Track } from '../tracks/tracks.models';
 export class FavoritesService {
 	constructor(
 		@Inject(DBServiceAlias.FavoritesDBService)
-		private readonly favoritesDBService: IFavoritesDBService2,
+		private readonly favoritesDBService: IFavoritesPostgreDBService,
 	) {}
 
 	public getFavorites(): Promise<Favorites> {

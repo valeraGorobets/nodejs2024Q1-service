@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import {
 	CreateTrackDTO,
-	ITracksDBService2,
+	ITracksPostgreDBService,
 	UpdateTrackDTO,
 } from './tracks.models';
 import { Prisma, PrismaClient } from '@prisma/client';
@@ -10,7 +10,7 @@ import type { Track as TrackPrismaType } from '.prisma/client';
 @Injectable()
 export class TrackPostgreDBService
 	extends PrismaClient
-	implements ITracksDBService2
+	implements ITracksPostgreDBService
 {
 	constructor() {
 		super();

@@ -2,14 +2,14 @@ import { Injectable } from '@nestjs/common';
 import { Album as AlbumPrismaType, Prisma, PrismaClient } from '@prisma/client';
 import {
 	CreateAlbumDTO,
-	IAlbumsDBService2,
+	IAlbumsPostgreDBService,
 	UpdateAlbumDTO,
 } from './albums.models';
 
 @Injectable()
 export class AlbumsPostgreDbService
 	extends PrismaClient
-	implements IAlbumsDBService2
+	implements IAlbumsPostgreDBService
 {
 	constructor() {
 		super();

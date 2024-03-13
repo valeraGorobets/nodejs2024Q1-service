@@ -71,6 +71,18 @@ export class User {
 }
 
 export interface IUsersDBService {
+	getAllUsers(): User[];
+
+	getUserById(id: string): User | undefined;
+
+	createUser(newUser: User): User;
+
+	updateUsersPassword(userToUpdate: User): void;
+
+	deleteUser(id: string): boolean;
+}
+
+export interface IUsersPostgreDBService {
 	getAllUsers(): Promise<UserPrismaType[]>;
 
 	getUserById(id: string): Promise<UserPrismaType | undefined>;

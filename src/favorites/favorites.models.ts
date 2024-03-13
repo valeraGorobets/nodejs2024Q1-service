@@ -73,7 +73,7 @@ export interface IFavoritesDBService {
 	deleteArtistFromFavorites(id: string): void;
 }
 
-export interface IFavoritesDBService2 {
+export interface IFavoritesPostgreDBService {
 	getFavorites(): Promise<Favorites>;
 
 	addTrackToFavorites(id: string): Promise<TrackPrismaType>;

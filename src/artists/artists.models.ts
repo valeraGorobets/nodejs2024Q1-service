@@ -57,7 +57,7 @@ export interface IArtistsDBService {
 	deleteArtist(id: string): boolean;
 }
 
-export interface IArtistsDBService2 {
+export interface IArtistsPostgreDBService {
 	getAllArtists(): Promise<ArtistPrismaType[]>;
 
 	getArtistById(id: string): Promise<ArtistPrismaType | undefined>;

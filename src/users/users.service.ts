@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import {
 	CreateUserDTO,
 	IUpdatePasswordResult,
-	IUsersDBService,
+	IUsersPostgreDBService,
 	UpdatePasswordDTO,
 	UpdatePasswordState,
 	User,
@@ -14,7 +14,7 @@ import type { User as UserPrismaType } from '.prisma/client';
 export class UsersService {
 	constructor(
 		@Inject(DBServiceAlias.UsersDBService)
-		private readonly userDBService: IUsersDBService,
+		private readonly userDBService: IUsersPostgreDBService,
 	) {}
 
 	public getAllUsers(): Promise<User[]> {

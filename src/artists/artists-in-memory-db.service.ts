@@ -1,9 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { Artist, UpdateArtistDTO } from './artists.models';
+import { Artist, IArtistsDBService, UpdateArtistDTO } from './artists.models';
 import { InMemoryDBService } from '../common/in-memory-db.service';
 
 @Injectable()
-export class ArtistsInMemoryDBService extends InMemoryDBService<Artist> {
+export class ArtistsInMemoryDBService
+	extends InMemoryDBService<Artist>
+	implements IArtistsDBService
+{
 	constructor() {
 		super([
 			new Artist({

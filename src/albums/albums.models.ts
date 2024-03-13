@@ -66,7 +66,7 @@ export interface IAlbumsDBService {
 	handleArtistDelete(artistId: string): void;
 }
 
-export interface IAlbumsDBService2 {
+export interface IAlbumsPostgreDBService {
 	getAllAlbums(): Promise<AlbumPrismaType[]>;
 
 	getAlbumById(id: string): Promise<AlbumPrismaType | undefined>;

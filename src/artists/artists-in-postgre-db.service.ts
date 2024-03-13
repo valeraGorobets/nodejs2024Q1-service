@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import {
 	CreateArtistDTO,
-	IArtistsDBService2,
+	IArtistsPostgreDBService,
 	UpdateArtistDTO,
 } from './artists.models';
 import {
@@ -13,7 +13,7 @@ import {
 @Injectable()
 export class ArtistsPostgreDBService
 	extends PrismaClient
-	implements IArtistsDBService2
+	implements IArtistsPostgreDBService
 {
 	constructor() {
 		super();

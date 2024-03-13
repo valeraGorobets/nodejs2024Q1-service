@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { CreateUserDTO, IUsersDBService } from './users.models';
+import { CreateUserDTO, IUsersPostgreDBService } from './users.models';
 import { Prisma, PrismaClient } from '@prisma/client';
 import type { User as UserPrismaType } from '@prisma/client';
 
 @Injectable()
 export class UsersPostgreDbService
 	extends PrismaClient
-	implements IUsersDBService
+	implements IUsersPostgreDBService
 {
 	constructor() {
 		super();

@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Favorites, IFavoritesDBService2 } from './favorites.models';
+import { Favorites, IFavoritesPostgreDBService } from './favorites.models';
 import {
 	Album as AlbumPrismaType,
 	Artist as ArtistPrismaType,
@@ -10,7 +10,7 @@ import {
 @Injectable()
 export class FavoritesPostgreDbService
 	extends PrismaClient
-	implements IFavoritesDBService2
+	implements IFavoritesPostgreDBService
 {
 	public async getFavorites(): Promise<Favorites> {
 		return new Favorites({

@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import {
 	Album,
 	CreateAlbumDTO,
-	IAlbumsDBService2,
+	IAlbumsPostgreDBService,
 	UpdateAlbumDTO,
 } from './albums.models';
 import { DBServiceAlias } from '../shared/shared.models';
@@ -12,7 +12,7 @@ import type { Album as AlbumPrismaType } from '@prisma/client';
 export class AlbumsService {
 	constructor(
 		@Inject(DBServiceAlias.AlbumsDBService)
-		private readonly albumsDBService: IAlbumsDBService2,
+		private readonly albumsDBService: IAlbumsPostgreDBService,
 	) {}
 
 	public getAllAlbums(): Promise<Album[]> {
