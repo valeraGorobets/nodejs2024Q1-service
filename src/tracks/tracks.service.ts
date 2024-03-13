@@ -6,7 +6,6 @@ import {
 	UpdateTrackDTO,
 } from './tracks.models';
 import { DBServiceAlias } from '../shared/shared.models';
-import { IFavoritesDBService } from '../favorites/favorites.models';
 import type { Track as TrackPrismaType } from '.prisma/client';
 
 @Injectable()
@@ -14,8 +13,6 @@ export class TrackService {
 	constructor(
 		@Inject(DBServiceAlias.TracksDBService)
 		private readonly trackDBService: ITracksDBService2,
-		@Inject(DBServiceAlias.FavoritesDBService)
-		private readonly favoritesDBService: IFavoritesDBService,
 	) {}
 
 	public getAllTracks(): Promise<Track[]> {
@@ -52,7 +49,6 @@ export class TrackService {
 	}
 
 	public deleteTrack(id: string): Promise<Track> {
-		this.favoritesDBService.deleteTrackFromFavorites(id);
 		return this.trackDBService
 			.deleteTrack(id)
 			.then((track: TrackPrismaType) => new Track({ ...track }))

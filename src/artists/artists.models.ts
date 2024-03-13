@@ -31,12 +31,14 @@ export class UpdateArtistDTO {
 }
 
 export class Artist {
-	public id: string = uuidv4();
+	public id: string;
 	public name: string;
 	public grammy: boolean;
 
 	constructor(artist: Partial<Artist>) {
-		Object.assign(this, artist);
+		this.id = artist.id || uuidv4();
+		this.name = artist.name || '';
+		this.grammy = artist.grammy || false;
 	}
 }
 

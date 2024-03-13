@@ -6,8 +6,6 @@ import {
 	UpdateAlbumDTO,
 } from './albums.models';
 import { DBServiceAlias } from '../shared/shared.models';
-import { IFavoritesDBService } from '../favorites/favorites.models';
-import { ITracksDBService } from '../tracks/tracks.models';
 import type { Album as AlbumPrismaType } from '@prisma/client';
 
 @Injectable()
@@ -15,10 +13,6 @@ export class AlbumsService {
 	constructor(
 		@Inject(DBServiceAlias.AlbumsDBService)
 		private readonly albumsDBService: IAlbumsDBService2,
-		@Inject(DBServiceAlias.FavoritesDBService)
-		private readonly favoritesDBService: IFavoritesDBService,
-		@Inject(DBServiceAlias.TracksDBService)
-		private readonly tracksDBService: ITracksDBService,
 	) {}
 
 	public getAllAlbums(): Promise<Album[]> {
@@ -55,8 +49,6 @@ export class AlbumsService {
 	}
 
 	public deleteAlbum(id: string): Promise<Album> {
-		this.favoritesDBService.deleteAlbumFromFavorites(id);
-		this.tracksDBService.handleAlbumDelete(id);
 		return this.albumsDBService
 			.deleteAlbum(id)
 			.then((album: AlbumPrismaType) => new Album({ ...album }))

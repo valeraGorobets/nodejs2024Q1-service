@@ -6,8 +6,6 @@ import {
 	UpdateArtistDTO,
 } from './artists.models';
 import { DBServiceAlias } from '../shared/shared.models';
-import { IFavoritesDBService } from '../favorites/favorites.models';
-import { ITracksDBService } from '../tracks/tracks.models';
 import type { Artist as ArtistPrismaType } from '.prisma/client';
 
 @Injectable()
@@ -15,10 +13,6 @@ export class ArtistsService {
 	constructor(
 		@Inject(DBServiceAlias.ArtistsDBService)
 		private readonly artistsDBService: IArtistsDBService2,
-		@Inject(DBServiceAlias.FavoritesDBService)
-		private readonly favoritesDBService: IFavoritesDBService,
-		@Inject(DBServiceAlias.TracksDBService)
-		private readonly tracksDBService: ITracksDBService,
 	) {}
 
 	public getAllArtists(): Promise<Artist[]> {
@@ -55,8 +49,6 @@ export class ArtistsService {
 	}
 
 	public deleteArtist(id: string): Promise<Artist> {
-		this.favoritesDBService.deleteArtistFromFavorites(id);
-		this.tracksDBService.handleArtistDelete(id);
 		return this.artistsDBService
 			.deleteArtist(id)
 			.then((artist: ArtistPrismaType) => new Artist({ ...artist }))

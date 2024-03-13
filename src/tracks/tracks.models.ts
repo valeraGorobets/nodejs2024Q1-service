@@ -47,14 +47,18 @@ export class UpdateTrackDTO {
 }
 
 export class Track {
-	public id: string = uuidv4();
+	public id: string;
 	public name: string;
 	public artistId: string | null = null;
 	public albumId: string | null = null;
 	public duration: number;
 
 	constructor(track: Partial<Track>) {
-		Object.assign(this, track);
+		this.id = track.id || uuidv4();
+		this.name = track.name || undefined;
+		this.artistId = track.artistId || null;
+		this.albumId = track.albumId || null;
+		this.duration = track.duration || 0;
 	}
 }
 

@@ -39,13 +39,16 @@ export class UpdateAlbumDTO {
 }
 
 export class Album {
-	public id: string = uuidv4();
+	public id: string;
 	public name: string;
 	public year: number;
 	public artistId: string | null;
 
 	constructor(album: Partial<Album>) {
-		Object.assign(this, album);
+		this.id = album.id || uuidv4();
+		this.name = album.name || undefined;
+		this.year = album.year || undefined;
+		this.artistId = album.artistId || null;
 	}
 }
 

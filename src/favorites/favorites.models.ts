@@ -2,6 +2,11 @@ import { HttpException, HttpStatus } from '@nestjs/common';
 import { Artist } from '../artists/artists.models';
 import { Album } from '../albums/albums.models';
 import { Track } from '../tracks/tracks.models';
+import {
+	Album as AlbumPrismaType,
+	Artist as ArtistPrismaType,
+	Track as TrackPrismaType,
+} from '@prisma/client';
 
 export enum FavoritesResponseState {
 	Ok,
@@ -66,4 +71,20 @@ export interface IFavoritesDBService {
 	addArtistToFavorites(id: string): void;
 
 	deleteArtistFromFavorites(id: string): void;
+}
+
+export interface IFavoritesDBService2 {
+	getFavorites(): Promise<Favorites>;
+
+	addTrackToFavorites(id: string): Promise<TrackPrismaType>;
+
+	deleteTrackFromFavorites(id: string): Promise<TrackPrismaType>;
+
+	addAlbumToFavorites(id: string): Promise<AlbumPrismaType>;
+
+	deleteAlbumFromFavorites(id: string): Promise<AlbumPrismaType>;
+
+	addArtistToFavorites(id: string): Promise<ArtistPrismaType>;
+
+	deleteArtistFromFavorites(id: string): Promise<ArtistPrismaType>;
 }
