@@ -10,6 +10,7 @@ services:
       - POSTGRES_PASSWORD=userPassword
     volumes:
       - postgres:/var/lib/postgresql/data
+      - ./logs:/var/log/postgres
     ports:
       - '5432:5432'
 volumes:
