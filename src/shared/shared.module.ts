@@ -1,32 +1,32 @@
 import { Module } from '@nestjs/common';
-import { ArtistsInMemoryDBService } from '../artists/artists-in-memory-db.service';
 import { DBServiceAlias } from './shared.models';
-import { UsersInMemoryDBService } from '../users/users-in-memory-db.service';
-import { TrackInMemoryDBService } from '../tracks/tracks-in-memory-db.service';
-import { AlbumsInMemoryDbService } from '../albums/albums-in-memory-db.service';
-import { FavoritesInMemoryDbService } from '../favorites/favorites-in-memory-db.service';
+import { UsersPostgreDbService } from '../users/users-postgre-db.service';
+import { ArtistsPostgreDBService } from '../artists/artists-in-postgre-db.service';
+import { AlbumsPostgreDbService } from '../albums/albums-postgre-db.service';
+import { TrackPostgreDBService } from '../tracks/tracks-postgre-db.service';
+import { FavoritesPostgreDbService } from '../favorites/favorites-postgre-db.service';
 
 @Module({
 	providers: [
 		{
 			provide: DBServiceAlias.ArtistsDBService,
-			useClass: ArtistsInMemoryDBService,
+			useClass: ArtistsPostgreDBService,
 		},
 		{
 			provide: DBServiceAlias.UsersDBService,
-			useClass: UsersInMemoryDBService,
+			useClass: UsersPostgreDbService,
 		},
 		{
 			provide: DBServiceAlias.TracksDBService,
-			useClass: TrackInMemoryDBService,
+			useClass: TrackPostgreDBService,
 		},
 		{
 			provide: DBServiceAlias.AlbumsDBService,
-			useClass: AlbumsInMemoryDbService,
+			useClass: AlbumsPostgreDbService,
 		},
 		{
 			provide: DBServiceAlias.FavoritesDBService,
-			useClass: FavoritesInMemoryDbService,
+			useClass: FavoritesPostgreDbService,
 		},
 	],
 	exports: [

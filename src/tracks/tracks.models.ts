@@ -1,5 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import { IsDefined, IsInt, IsOptional, IsString } from 'class-validator';
+import type { Track as TrackPrismaType } from '@prisma/client';
 
 export class CreateTrackDTO {
 	@IsDefined()
@@ -46,14 +47,18 @@ export class UpdateTrackDTO {
 }
 
 export class Track {
-	public id: string = uuidv4();
+	public id: string;
 	public name: string;
 	public artistId: string | null = null;
 	public albumId: string | null = null;
 	public duration: number;
 
 	constructor(track: Partial<Track>) {
-		Object.assign(this, track);
+		this.id = track.id || uuidv4();
+		this.name = track.name || undefined;
+		this.artistId = track.artistId || null;
+		this.albumId = track.albumId || null;
+		this.duration = track.duration || 0;
 	}
 }
 
@@ -71,4 +76,19 @@ export interface ITracksDBService {
 	handleArtistDelete(artistId: string): void;
 
 	handleAlbumDelete(albumId: string): void;
+}
+
+export interface ITracksPostgreDBService {
+	getAllTracks(): Promise<TrackPrismaType[]>;
+
+	getTrackById(id: string): Promise<TrackPrismaType | undefined>;
+
+	createTrack(createTrackDTO: CreateTrackDTO): Promise<TrackPrismaType>;
+
+	updateTrack(
+		id: string,
+		updateTrackDTO: UpdateTrackDTO,
+	): Promise<TrackPrismaType>;
+
+	deleteTrack(id: string): Promise<TrackPrismaType>;
 }

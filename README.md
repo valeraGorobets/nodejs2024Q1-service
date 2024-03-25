@@ -17,10 +17,18 @@ git clone {repository URL}
 npm install
 ```
 
+## Running Prisma Studio
+
+```
+npm run prisma
+```
+Used to visually observe created entities and their relationship. Hosted on http://localhost:5555
+
 ## Running application
 
 ```
-npm start
+npm start // launches the app
+sudo docker-compose up // launches docker locally
 ```
 
 After starting the app on port (4000 as default) you can open

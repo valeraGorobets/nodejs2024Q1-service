@@ -19,13 +19,17 @@ export class TracksController {
 	constructor(private readonly trackService: TrackService) {}
 
 	@Get()
-	getAll(): Track[] {
+	getAll(): Promise<Track[]> {
 		return this.trackService.getAllTracks();
 	}
 
 	@Get(`:${APIPath.Id}`)
-	getById(@Param(APIPath.Id, ParseUUIDPipe) id: string): Track {
-		const track: Track | undefined = this.trackService.getTrackById(id);
+	async getById(
+		@Param(APIPath.Id, ParseUUIDPipe) id: string,
+	): Promise<Track> {
+		const track: Track | undefined = await this.trackService.getTrackById(
+			id,
+		);
 		if (!track) {
 			throw new NotFoundException(id);
 		}
@@ -33,19 +37,17 @@ export class TracksController {
 	}
 
 	@Post()
-	create(@Body() createTrackDTO: CreateTrackDTO): Track {
+	create(@Body() createTrackDTO: CreateTrackDTO): Promise<Track> {
 		return this.trackService.createTrack(createTrackDTO);
 	}
 
 	@Put(`:${APIPath.Id}`)
-	update(
+	async update(
 		@Param(APIPath.Id, ParseUUIDPipe) id: string,
 		@Body() updateTrackDTO: UpdateTrackDTO,
-	): Track {
-		const updatedTrack: Track | undefined = this.trackService.updateTrack(
-			id,
-			updateTrackDTO,
-		);
+	): Promise<Track> {
+		const updatedTrack: Track | undefined =
+			await this.trackService.updateTrack(id, updateTrackDTO);
 		if (!updatedTrack) {
 			throw new NotFoundException(id);
 		}
@@ -54,9 +56,9 @@ export class TracksController {
 
 	@Delete(`:${APIPath.Id}`)
 	@HttpCode(204)
-	remove(@Param(APIPath.Id, ParseUUIDPipe) id: string): void {
-		const isDeleted: boolean = this.trackService.deleteTrack(id);
-		if (!isDeleted) {
+	async remove(@Param(APIPath.Id, ParseUUIDPipe) id: string): Promise<void> {
+		const deletedTrack: Track = await this.trackService.deleteTrack(id);
+		if (!deletedTrack) {
 			throw new NotFoundException(id);
 		}
 	}

@@ -1,5 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import { IsDefined, IsInt, IsOptional, IsString } from 'class-validator';
+import type { Album as AlbumPrismaType } from '@prisma/client';
 
 export class CreateAlbumDTO {
 	@IsDefined()
@@ -38,13 +39,16 @@ export class UpdateAlbumDTO {
 }
 
 export class Album {
-	public id: string = uuidv4();
+	public id: string;
 	public name: string;
 	public year: number;
 	public artistId: string | null;
 
 	constructor(album: Partial<Album>) {
-		Object.assign(this, album);
+		this.id = album.id || uuidv4();
+		this.name = album.name || undefined;
+		this.year = album.year || undefined;
+		this.artistId = album.artistId || null;
 	}
 }
 
@@ -60,4 +64,19 @@ export interface IAlbumsDBService {
 	deleteAlbum(id: string): boolean;
 
 	handleArtistDelete(artistId: string): void;
+}
+
+export interface IAlbumsPostgreDBService {
+	getAllAlbums(): Promise<AlbumPrismaType[]>;
+
+	getAlbumById(id: string): Promise<AlbumPrismaType | undefined>;
+
+	createAlbum(createAlbumDTO: CreateAlbumDTO): Promise<AlbumPrismaType>;
+
+	updateAlbum(
+		id: string,
+		updateAlbumDTO: UpdateAlbumDTO,
+	): Promise<AlbumPrismaType>;
+
+	deleteAlbum(id: string): Promise<AlbumPrismaType>;
 }

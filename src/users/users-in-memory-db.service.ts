@@ -14,16 +14,16 @@ export class UsersInMemoryDBService
 				login: 'user 1 login',
 				password: '1 password',
 				version: 1,
-				createdAt: 10,
-				updatedAt: 11,
+				createdAt: new Date(),
+				updatedAt: new Date(),
 			}),
 			new User({
 				id: 'd8676729-7367-4a8b-8866-bacebed47a0c',
 				login: 'user 2 login',
 				password: '2 password',
 				version: 2,
-				createdAt: 114,
-				updatedAt: 203,
+				createdAt: new Date(),
+				updatedAt: new Date(),
 			}),
 		]);
 	}

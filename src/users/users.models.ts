@@ -2,6 +2,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { IsDefined, IsString } from 'class-validator';
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { getCurrentTimestamp } from '../common/utils';
+import type { User as UserPrismaType } from '@prisma/client';
 
 export interface IUpdatePasswordResult {
 	updatedUser?: User;
@@ -53,17 +54,19 @@ export class User {
 	public login: string;
 	public password: string;
 	public version = 1;
-	public createdAt: number = getCurrentTimestamp();
-	public updatedAt: number = this.createdAt;
+	public createdAt: number | Date = getCurrentTimestamp();
+	public updatedAt: number | Date = this.createdAt;
 
 	constructor(user: Partial<User>) {
 		Object.assign(this, user);
-	}
-
-	public updatePassword(newPassword: string): void {
-		this.version++;
-		this.updatedAt = getCurrentTimestamp();
-		this.password = newPassword;
+		this.createdAt =
+			this.createdAt instanceof Date
+				? this.createdAt.getTime()
+				: this.createdAt;
+		this.updatedAt =
+			this.updatedAt instanceof Date
+				? this.updatedAt.getTime()
+				: this.updatedAt;
 	}
 }
 
@@ -77,4 +80,19 @@ export interface IUsersDBService {
 	updateUsersPassword(userToUpdate: User): void;
 
 	deleteUser(id: string): boolean;
+}
+
+export interface IUsersPostgreDBService {
+	getAllUsers(): Promise<UserPrismaType[]>;
+
+	getUserById(id: string): Promise<UserPrismaType | undefined>;
+
+	createUser(createUserDTO: CreateUserDTO): Promise<UserPrismaType>;
+
+	updateUsersPassword(
+		id: string,
+		newPassword: string,
+	): Promise<UserPrismaType>;
+
+	deleteUser(id: string): Promise<UserPrismaType>;
 }

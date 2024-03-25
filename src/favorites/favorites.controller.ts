@@ -22,26 +22,26 @@ export class FavoritesController {
 	constructor(private readonly favoritesService: FavoritesService) {}
 
 	@Get()
-	getFavorites(): Favorites {
+	async getFavorites(): Promise<Favorites> {
 		return this.favoritesService.getFavorites();
 	}
 
 	@Post(`${APIPath.Tracks}/:${APIPath.Id}`)
-	addTrackToFavorites(
+	async addTrackToFavorites(
 		@Param(APIPath.Id, ParseUUIDPipe) id: string,
-	): CommonResponse {
+	): Promise<CommonResponse> {
 		const responseState: FavoritesResponseState =
-			this.favoritesService.addTrackToFavorites(id);
+			await this.favoritesService.addTrackToFavorites(id);
 		return this.handleAddToFavorites(FavoritesEntity.Track, responseState);
 	}
 
 	@Delete(`${APIPath.Tracks}/:${APIPath.Id}`)
 	@HttpCode(204)
-	deleteTrackFromFavorites(
+	async deleteTrackFromFavorites(
 		@Param(APIPath.Id, ParseUUIDPipe) id: string,
-	): CommonResponse {
+	): Promise<CommonResponse> {
 		const responseState: FavoritesResponseState =
-			this.favoritesService.deleteTrackFromFavorites(id);
+			await this.favoritesService.deleteTrackFromFavorites(id);
 		return this.handleDeleteFromFavorites(
 			FavoritesEntity.Track,
 			responseState,
@@ -49,21 +49,21 @@ export class FavoritesController {
 	}
 
 	@Post(`${APIPath.Albums}/:${APIPath.Id}`)
-	addAlbumToFavorites(
+	async addAlbumToFavorites(
 		@Param(APIPath.Id, ParseUUIDPipe) id: string,
-	): CommonResponse {
+	): Promise<CommonResponse> {
 		const responseState: FavoritesResponseState =
-			this.favoritesService.addAlbumToFavorites(id);
+			await this.favoritesService.addAlbumToFavorites(id);
 		return this.handleAddToFavorites(FavoritesEntity.Album, responseState);
 	}
 
 	@Delete(`${APIPath.Albums}/:${APIPath.Id}`)
 	@HttpCode(204)
-	deleteAlbumFromFavorites(
+	async deleteAlbumFromFavorites(
 		@Param(APIPath.Id, ParseUUIDPipe) id: string,
-	): CommonResponse {
+	): Promise<CommonResponse> {
 		const responseState: FavoritesResponseState =
-			this.favoritesService.deleteAlbumFromFavorites(id);
+			await this.favoritesService.deleteAlbumFromFavorites(id);
 		return this.handleDeleteFromFavorites(
 			FavoritesEntity.Album,
 			responseState,
@@ -71,21 +71,21 @@ export class FavoritesController {
 	}
 
 	@Post(`${APIPath.Artists}/:${APIPath.Id}`)
-	addArtistToFavorites(
+	async addArtistToFavorites(
 		@Param(APIPath.Id, ParseUUIDPipe) id: string,
-	): CommonResponse {
+	): Promise<CommonResponse> {
 		const responseState: FavoritesResponseState =
-			this.favoritesService.addArtistToFavorites(id);
+			await this.favoritesService.addArtistToFavorites(id);
 		return this.handleAddToFavorites(FavoritesEntity.Artist, responseState);
 	}
 
 	@Delete(`${APIPath.Artists}/:${APIPath.Id}`)
 	@HttpCode(204)
-	deleteArtistFromFavorites(
+	async deleteArtistFromFavorites(
 		@Param(APIPath.Id, ParseUUIDPipe) id: string,
-	): CommonResponse {
+	): Promise<CommonResponse> {
 		const responseState: FavoritesResponseState =
-			this.favoritesService.deleteArtistFromFavorites(id);
+			await this.favoritesService.deleteArtistFromFavorites(id);
 		return this.handleDeleteFromFavorites(
 			FavoritesEntity.Artist,
 			responseState,
